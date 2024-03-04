@@ -1,0 +1,96 @@
+* {
+	font-size: 18px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+    background: url('/static/images/food.jpg') repeat;
+	font-family: 'Patrick Hand', cursive;
+}
+
+.koolilouna {
+	color: red;
+	/*background-color: #CCFFCC; */
+	/*font-family: "Comic Sans MS", Verdana;*/
+}
+.teemapaev {
+	color: green;
+	font-weight: bold;
+}
+.author {
+	background: transparent;
+	font-weight: bold;
+	color: rgb(28, 181, 237);
+}
+.sessioon{
+	background-color: rgba(220, 220, 220, 0.5);
+}
+.date45Degree {
+	-webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    /*left: -40px;
+    top: 35px;*/
+	top: 40px;
+    position: absolute;
+    color: #008800;
+    /*text-transform: uppercase;*/
+    font-size: 16px;
+    font-weight:bold;
+}
+.fixed-bottom {
+	left: 1em;
+	right: 1em;
+}
+
+.strike {
+	text-decoration: line-through;
+}
+.myBlur {
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	-o-filter: blur(5px);
+	-ms-filter: blur(5px);
+	filter: blur(5px);
+	/*width: auto;
+	height: 10px;*/
+	background-color: #ccc;
+}
+/* https://stackoverflow.com/questions/826782/how-to-disable-text-selection-highlighting */
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+/* DIANA */
+tr {
+	border-bottom: solid #bababa 1px;
+}
+.dark {
+	background-color: rgba(220, 220, 220, 0.8);
+}
+
+.light {
+	background-color: rgba(255, 255, 255, 0.8);
+}
+.darkdate {
+	background-color: rgba(220, 220, 220, 0.5);
+}
+.green {
+	color: rgb(7, 161, 120);
+}
+.blue {	color: rgb(28, 181, 237);
+}
+.cat_blue {
+	color: rgb(24, 144, 188);
+}
+.red-color {
+    color: #FF0000; /* Replace with your preferred hex color code */
+}

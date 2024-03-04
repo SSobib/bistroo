@@ -1,0 +1,43 @@
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 60px;
+        }
+        .food-item,
+        .comment-item {
+            background-color: rgba(51, 51, 51, 0.5);
+            color: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            width: 100%;
+            /* Set the width to 100% */
+            box-sizing: border-box; /* Add this line */
+        }
+        .food-category-bar {
+            background-color: rgba(51, 51, 51, 0.8);
+            color: white;
+            padding: 10px;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            box-sizing: border-box; /* Add this line */
+        }
+        .food-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: inline-block;
+            /* Add this line to center the text */
+            line-height: 1.5; /* Add this line */
+            width: 50%; /* Add this line */
+        }
+        .food-details,
+        .comment-text {
+            font-size: 14px;
+        }
+        .food-price {
+            display: inline-block; /* Add this line */
+            text-align: right;
+            width: 50%; /* Add this line */
+        }

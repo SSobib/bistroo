@@ -1,0 +1,49 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+<div class="container mt-5">
+    <div class="col-auto mx-auto">
+        <div class="card col-12 mx-auto">
+            <div class="card-header">
+                <div class="card-title d-flex justify-content-between align-self-auto">
+                    <h4 class="m-0 mt-2">Otsing</h4>
+                </div>
+            </div>
+            <div class="container mt-5 mb-5" style="background-color: white;">
+                <div class="row col-12">
+                    <h4 class="fw-bold">Otsi toitu menüüst</h4>
+                    <form action="{% url 'app_admin:archive_search' %}" method="get">
+                        <input type="text" id="q" name="q" required class="form-control">
+                        <div class="text-center w-100">
+                            <button class="btn btn-secondary my-2 mt-3" type="submit" style="width: 100%;">
+                                <i class="bi bi-search"></i> Otsi
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="container pb-5" style="background-color: white;">
+                <div class="row col-12">
+                    <h4 class="fw-bold">Eelnevad menüüd</h4>
+                    <form action="{% url 'app_admin:archive_menu' %}" method="get" class="mb-2">
+                        <select name="date" id="date" class="form-select form-control" required>
+                            <option value="">Vali kuupäev</option>
+                            {% for unique_date in unique_dates %}
+                            <option value="{{ unique_date }}">{{ unique_date }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="text-center w-100">
+                            <button class="btn btn-secondary mt-3" type="submit" style="width: 100%;">
+                                <i class="bi bi-eye"></i> Näita menüüd
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% endif %}
+{% endblock %}
+

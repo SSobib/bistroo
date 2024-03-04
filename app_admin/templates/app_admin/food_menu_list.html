@@ -1,0 +1,60 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container mt-5">
+            <div class="col-auto mx-auto">
+                <div class="card col-12 mx-auto">
+                    <div class="card-header">
+                        <div class="card-title d-flex justify-content-between align-self-auto">
+                            <h4 class="m-0 mt-2">Menüü koostamine</h4>
+                        </div>
+                    </div>
+                    <div class="table-body mx-4">
+                        <table class="table table">
+                            <thead>
+                            <tr>
+                                <th>Kuupäev</th>
+                                <th>Menüü kategooria</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if object_list %}
+                                {% for menu in object_list %}
+                                    <tr>
+                                        <td>{{ menu.date }}</td>
+                                        <td>{{ menu.category }}</td>
+                                        <td class="text-center">
+                                            {# {% if user.is_authenticated %}  #}
+                                            <div class="btn-group d-flex justify-content-end">
+                                                <a class="btn btn-light btn-sm"
+                                                   href="{% url 'app_admin:food_menu_detail' pk=menu.id %}"><i
+                                                        class="bi bi-eyeglasses"></i> Vaata</a>
+                                                <a class="btn btn-warning btn-sm"
+                                                   href="{% url 'app_admin:food_menu_update' pk=menu.id %}"><i
+                                                        class="bi bi-pencil"></i> Muuda</a>
+                                                <a class="btn btn-danger btn-sm"
+                                                   href="{% url 'app_admin:food_menu_delete' pk=menu.id %}"><i
+                                                        class="bi bi-trash3"></i> Kustuta</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                {% if object_list|length == 0 %}
+                                    <tr>
+                                        <td colspan="5" style="color: red; text-align: center;">MENÜÜD EI OLE VEEL SISESTATUD!</td>
+                                    </tr>
+                                {% endif %}
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <a class="btn btn-secondary d-block mx-auto mb-3" href="{% url 'app_admin:food_menu_create' %}"><i
+                                class="bi bi-plus-circle"></i> Lisa toit menüüsse</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

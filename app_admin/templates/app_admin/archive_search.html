@@ -1,0 +1,43 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+<div class="container mt-5">
+    <div class="col-auto mx-auto">
+        <div class="card col-12 mx-auto">
+            <div class="card-header">
+                <div class="card-title d-flex justify-content-between align-self-auto">
+                    <h4 class="m-0 mt-2">Otsingu tulemused</h4>
+                </div>
+            </div>
+        {% if object_list %}
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr class="text-center">
+                    <th class="col-1">Kuupäev</th>
+                    <th class="col-3">Kategooria</th>
+                    <th>Toidunimi</th>
+                    <th class="col-1">Täishind</th>
+                    <th class="col-1">Soodushind</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for food in object_list %}
+                        <tr>
+                            <td class="text-center"><a href="">{{ food.menu.date }}</a></td>
+                            <td>{{ food.menu.category }}</td>
+                            <td>{{ food.food }}</td>
+                            <td class="text-end">{{ food.full_price }}</td>
+                            <td class="text-end">{% if food.half_price > 0 %}{{ food.half_price }}{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a class="btn btn-secondary d-block mx-auto mb-3" href="{% url 'app_admin:archive' %}"><i class="bi bi-box-arrow-in-left"></i> Tagasi otsingusse</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Bistroo Admin Login</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            background-color: rgba(51, 51, 51, 0.5);
+        }
+        .date-text {
+            color: white;
+            font-family: 'sans-serif', sans-serif;
+            font-size: 20px;
+        }
+    </style>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
+</head>
+<body>
+<div class="container">
+    {% block content %}
+
+    {% endblock %}
+</div>
+
+</body>
+</html>

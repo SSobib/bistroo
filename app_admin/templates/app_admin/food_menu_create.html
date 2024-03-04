@@ -1,0 +1,53 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container mt-5">
+            <div class="row mt-2">
+                <div class="col-6 mx-auto">
+                    <div class="card mb-3">
+                        <div class="card-header text-bg-success">
+                            <div class="card-title d-flex justify-content-between align-items-center">
+                                <h5 class="m-0 mt-2">Menüü kategooria lisamine</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% if messages %}
+                                <div class="mt-3">
+                                    <div class="alert alert-info">
+                                        {% for message in messages %}
+                                            {{ message }}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="mb-3">
+                                        {{ field.label_tag }}
+                                        {{ field }}
+                                        {% for error in field.errors %}
+                                            <p class="text-danger">{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-success mt-3 me-2" type="submit"><i
+                                                class="bi bi-check-circle"></i> Lisa menüü kategooria
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:food_menu_list' %}"><i
+                            class="bi bi-box-arrow-left"></i> Menüü koostamine</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

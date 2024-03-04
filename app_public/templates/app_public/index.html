@@ -1,0 +1,71 @@
+{% extends 'base_public.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid" id="menuDiv">
+        <div id="" class="m-0">
+            <div class="text-center fixed-top darkdate font-weight-bold ml-3 mr-3">
+                <h4 id="currentDate">{{ estonian_date }}</h4>
+            </div>
+            {% if menuheadlines %}
+                <div class="row mt-4 font-weight-bold">
+                    <div class="text-center mt-3">
+                        <h3 class="green">
+                            {% if menuheadlines.0.theme %}{{ menuheadlines.0.theme|upper }}{% endif %}
+                        </h3>
+                        <h3 class="green">
+                            {% if menuheadlines.0.recommends %}{{ menuheadlines.0.recommends|upper }}{% endif %}
+                        </h3>
+                        <h3 class="blue">
+                            {% if menuheadlines.0.prepared %}{{ menuheadlines.0.prepared|upper }}{% endif %}
+                        </h3>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row p-0">
+                    <h4 class="text-center dark-date">
+                        {{ current_date }}
+                    </h4>
+                </div>
+            {% endif %}
+        </div>
+        {% if not menuheadlines %}
+            <div class="row p-5">
+                <div class="alert alert-info text-center p-1 fw-bold">
+                    Menüüd ei ole veel sisestatud!
+                </div>
+            </div>
+        {% endif %}
+
+        {% if object_list %}
+            {% regroup object_list by menu__category__category_name as result %}
+            {% for menu in result %}
+                <table class="table-sm col-12 mb-2" style="">
+                    <tr class="d-flex dark">
+                        <td class="col-8 text-info fw-bold {% if forloop.first %}text-danger{% endif %}">{{ menu.grouper|upper }}</td>
+                    </tr>
+                    {% for m in menu.list %}
+                        <tr class="d-flex light">
+                            <td class="col-11 fw-bold {% if not m.show_in_menu %}myBlur noselect{% endif %}">{{ m.food|upper }}</td>
+                            <td class="col-1 text-end fw-bold {% if not m.show_in_menu %}myBlur noselect{% endif %}">
+                                {% if m.full_price == 0 %}
+                                    Prae hinna sees
+                                {% else %}
+                                    {{ m.full_price }}
+                                    {% if m.half_price > 0 %}
+                                        / {{ m.half_price }}
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <script>
+        setTimeout(function() {
+            location.reload();
+        }, 30000);
+    </script>
+{% endblock %}

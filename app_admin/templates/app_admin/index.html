@@ -1,0 +1,14 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="d-flex flex-column justify-content-center align-items-center" style="height: 80vh;">
+            <h3 class="text-center" style="color: #ffffff">Bistroo menüü admin lehekülg</h3>
+            {% if user.is_authenticated %}
+                <p class="text-center" style="color: #ffffff">Olete sisse logitud, lugupeetud {{ user.username }}! <a href="{% url 'logout' %}">Logi välja</a></p>
+            {% else %}
+                <p class="text-center" style="color: #ffffff">Palun logi sisse! <a href="{% url 'login' %}">Logi sisse</a></p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

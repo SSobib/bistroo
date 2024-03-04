@@ -1,0 +1,39 @@
+{% extends 'base_admin.html' %}
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="container mt-5">
+        <div class="col-auto mx-auto">
+            <div class="card col-12 mx-auto">
+                <div class="card-header">
+                    <div class="card-title d-flex justify-content-between align-self-auto">
+                        <h4 class="m-0 mt-2">Menüü {{ estonian_date }}</h4>
+                    </div>
+                </div>
+                <div class="table-body mx-4">
+                    <table class="table table">
+                        <tbody>
+                            {% if object_list %}
+                                {% regroup object_list by menu__category__category_name as result %}
+                                <ul>
+                                    {% for menu in result %}
+                                        <li>{{ menu.grouper }}
+                                            <ul>
+                                                {% for m in menu.list %}
+                                                    <li>{{ m.food }}: {{ m.full_price }}{% if m.half_price > 0 %}
+                                                            / {{ m.half_price }}
+                                                        {% endif %}
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

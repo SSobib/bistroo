@@ -1,0 +1,96 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container mt-5">
+            <div class="col-auto mx-auto">
+                <div class="card col-12 mx-auto">
+                    <div class="card-header">
+                        <div class="card-title d-flex justify-content-between align-self-auto">
+                            <h4 class="m-0 mt-2">Kategooriad</h4>
+                        </div>
+                    </div>
+                    <div class="table-body mx-4">
+                        <table class="table custom-table" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>Kuupäev</th>
+                                <th>Teema</th>
+                                <th>Soovitab</th>
+                                <th>Valmistas</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for menu in data.menus %}
+                                <tr>
+                                    <td>{{ menu.date|date:"d.m.Y" }}</td>
+                                    <td>{% if menu.theme %} {{ menu.theme }} {% endif %}</td>
+                                    <td>{% if menu.recommends %} {{ menu.recommends }} {% endif %} </td>
+                                    <td>{% if menu.prepared %} {{ menu.prepared }} {% endif %}</td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            <a class="btn btn-warning btn-sm"
+                                               href="{% url 'app_admin:menu_update' pk=menu.id %}"><i
+                                                    class="bi bi-pencil"></i> Muuda</a>
+                                            <a class="btn btn-danger btn-sm"
+                                               href="{% url 'app_admin:menu_delete' pk=menu.id %}"><i
+                                                    class="bi bi-trash3"></i> Kustuta</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% if data.menus|length == 0 %}
+                                <tr>
+                                    <td colspan="5" style="color: red; text-align: center;">PÄISEID EI OLE VEEL SISESTATUD!</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <a class="btn btn-secondary btn-sm d-block mx-auto mt-3 mb-3"
+                           href="{% url 'app_admin:menu_create' %}"><i class="bi bi-plus-circle"></i> Lisa
+                            uus päise kategooria</a>
+                        <table class="table custom-table" id="dataTable">
+                            <thead>
+                            <tr>
+                                <th>Toitude kategooriad</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for category in data.categories %}
+                                <tr>
+                                    <td>{{ category.category_name }}</td>
+                                    <td></td>
+                                    <td class="text-end">
+                                        <div class="btn-group">
+                                            <a class="btn btn-warning btn-sm"
+                                               href="{% url 'app_admin:category_update' pk=category.id %}"><i
+                                                    class="bi bi-pencil"></i> Muuda</a>
+                                            <a class="btn btn-danger btn-sm"
+                                               href="{% url 'app_admin:category_delete' pk=category.id %}"><i
+                                                    class="bi bi-trash3"></i> Kustuta</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% if data.categories|length == 0 %}
+                                <tr>
+                                    <td colspan="5" style="color: red; text-align: center;">TOITUDE KATEGOORIAID EI OLE VEEL SISESTATUD!</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                        <a class="btn btn-secondary btn-sm d-block mx-auto mt-3 mb-3"
+                           href="{% url 'app_admin:category_create' %}"><i class="bi bi-plus-circle"></i> Lisa uus toidu
+                            kategooria</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+
+

@@ -1,0 +1,31 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container mt-5">
+            <div class="row mt-2">
+                <div class="col-6 mx-auto">
+                    <div class="card mb-3">
+                        <div class="card-header text-bg-danger">
+                            Kategooria Kustutamine
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info" role="alert">
+                                NB! See katekooria kustutatakse. {{ app_admin.category_name }}
+                            </div>
+
+                            <p>Kas oled kindel, et soovid kategooriat <strong>{{ category }}</strong> kustutada? </p>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger col-4">
+                                    <i class="bi bi-trash3"></i> Kustuta
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:category' %}">Kategooriad</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

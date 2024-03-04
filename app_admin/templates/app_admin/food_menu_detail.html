@@ -1,0 +1,48 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+    <div class="container mt-5">
+        <div class="col-auto mx-auto">
+            <div class="card col-12 mx-auto">
+                <div class="card-header">
+                    <div class="card-title d-flex justify-content-between align-self-auto">
+                        <h4 class="m-0 mt-2">Menüü detailid</h4>
+                    </div>
+                </div>
+                <div class="table-body mx-4">
+                    <table class="table table">
+                        <thead>
+                        <tr>
+                            <th colspan="4">{{ foodmenu }}</th>
+                        </tr>
+                        <tr>
+                            <th>Toidu nimetus</th>
+                            <th>Täishind</th>
+                            <th>Soodushind</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for food in foodmenu.food_fooditem.all %}
+                            <tr>
+                                <td>{{ food.food }}</td>
+                                <td>{{ food.full_price }}</td>
+                                <td>{{ food.half_price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <a class="btn btn-secondary d-block mx-auto mt-3 mb-3"
+                       href="{% url 'app_admin:food_menu_create' %}"><i
+                            class="bi bi-plus-circle"></i> Lisa uus söök</a>
+                    <a class="btn btn-success d-block mx-auto mt-3 mb-3"
+                       href="{% url 'app_admin:food_menu_list' %}"><i
+                            class="bi bi-eye"></i> Tagasi menüüd koostama</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+

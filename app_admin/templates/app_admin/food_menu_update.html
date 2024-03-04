@@ -1,0 +1,78 @@
+{% extends "base_admin.html" %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <div class="container mt-5">
+            <div class="row mt-2">
+                <div class="col-6 mx-auto">
+                    <div class="card mb-3">
+                        <div class="card-header text-bg-success">
+                            <div class="card-title d-flex justify-content-between align-items-center">
+                                <h5 class="m-0 mt-2">Söögi lisamine/muutmine</h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form action="" method="post" enctype="multipart/form-data" class="form">
+                                {% for hidden_field in form.hidden_fields %}
+                                    <div class="col-12">
+                                        {{ hidden_field.errors }}
+                                        {{ hidden_field }}
+                                    </div>
+                                {% endfor %}
+
+                                {% csrf_token %}
+
+                                {{ form.management_form }}
+                                {{ form.non_form_errors }}
+
+                                {% if formset.errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ formset.errors }}
+                                    </div>
+                                {% endif %}
+
+                                <div id="formsets-container">
+                                    {% for foodmenu in form.forms %}
+                                        <div class="formset">
+                                            <hr>
+                                            <h5 class="col-12">
+                                                {% if foodmenu.instance.id %}
+                                                    {{ foodmenu.instance.menu }}
+                                                {% else %}
+                                                    {% if form.forms|length > 1 %}
+                                                        Toidu lisamine
+                                                    {% else %}
+                                                        Lisa toit
+                                                    {% endif %}
+                                                {% endif %}
+                                            </h5>
+                                            {% for hidden_field in foodmenu.hidden_fields %}
+                                                <div class="col-3">
+                                                    {{ hidden_field.errors }}
+                                                    {{ hidden_field }}
+                                                </div>
+                                            {% endfor %}
+                                            <table class="table table-borderless table-sm">
+                                                {{ foodmenu.as_table }}
+                                            </table>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-success mt-3 me-2" type="submit"><i
+                                                class="bi bi-plus-circle"></i> Lisa menüüsse
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:food_menu_list' %}"><i
+                            class="bi bi-box-arrow-left"></i> Menüü koostamine</a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
