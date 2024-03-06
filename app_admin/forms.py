@@ -23,7 +23,8 @@ class MenuCreateForm(forms.ModelForm):
                                             'placeholder': 'Teema jaoks on vaja sisestada ka soovitaja'}),
             'recommends': forms.TextInput(attrs={'type': 'text', 'class': 'form-control',
                                                  'placeholder': 'Soovitaja jaoks on vaja sisestada teema'}),
-            'prepared': forms.TextInput(attrs={'type': 'text', 'class': 'form-control'}),
+            'prepared': forms.TextInput(attrs={'type': 'text', 'class': 'form-control',
+                                               'placeholder': 'Sisesta valmistaja'}),
         }
         fields = ('date', 'theme', 'recommends', 'prepared')
 

@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import redirect
 from .forms import *
 from .models import *
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -21,6 +22,19 @@ class CategoryCreateView(CreateView):
     model = Category
     form_class = CategoryCreateForm
     success_url = reverse_lazy('app_admin:category')
+
+    def form_valid(self, form):
+        # Check if the category_sort_id already exists in the form
+        new_category_sort_id = form.cleaned_data['category_sort_id']
+
+        # Check if the ID already exists in the form data (not in the database)
+        if Category.objects.filter(category_sort_id=new_category_sort_id).exists():
+            # Add an error message to the form
+            messages.error(self.request, 'Selline kategooria number on juba olemas, palun sisesta teine number!')
+            return self.form_invalid(form)
+
+        # Save the form if the ID is unique
+        return super().form_valid(form)
 
     def form_invalid(self, form):
         # Clear existing messages to prevent duplicates
@@ -43,8 +57,7 @@ class CategoryListView(ListView):
 
     def get_queryset(self):
         categories = Category.objects.all()
-        menus = Menu.objects.all()
-        return {'categories': categories, 'menus': menus}
+        return {'categories': categories}
 
 
 class CategoryUpdateView(UpdateView):
@@ -63,6 +76,18 @@ class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('app_admin:category')
 
+
+class MenuListView(ListView):
+    template_name = 'app_admin/menu.html'
+    context_object_name = 'data'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Menu.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
 
 class MenuCreateView(CreateView):
     template_name = 'app_admin/menu_form_create.html'
@@ -102,13 +127,35 @@ class MenuDeleteView(DeleteView):
 class FoodMenuListView(ListView):
     model = FoodMenu
     template_name = 'app_admin/food_menu_list.html'
+    context_object_name = 'object_list'
+    paginate_by = 10  # Number of items to display per page
+
+    def get_queryset(self):
+        # Retrieve the queryset and order it by the 'date' field
+        return FoodMenu.objects.all().order_by('date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paginator = Paginator(self.object_list, self.paginate_by)
+
+        page = self.request.GET.get('page')
+        try:
+            object_list = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            object_list = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            object_list = paginator.page(paginator.num_pages)
+
+        context['object_list'] = object_list
+        return context
 
 
 class FoodMenuUpdateView(SingleObjectMixin, FormView):
     model = FoodMenu
     form_class = FoodMenuUpdateForm
     template_name = 'app_admin/food_menu_update.html'
-
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=FoodMenu.objects.all())
@@ -152,15 +199,6 @@ class FoodMenuCreateView(CreateView):
         return super().form_invalid(form)
 
 
-class ReadyMenuListView(ListView):
-    model = FoodMenu
-    template_name = 'app_admin/ready_menu.html'
-    context_object_name = 'menus'  # set the context_object_name to match the template
-
-    def get_queryset(self):
-        return FoodMenu.objects.all()
-
-
 class ArchivePage(ListView):
     model = Menu
     template_name = 'app_admin/archive.html'
@@ -172,16 +210,14 @@ class ArchivePage(ListView):
 
 
 class SearchResultsListView(ListView):
-    # Kuidas otsida ja ümber suunata https://stackoverflow.com/questions/62094267/redirect-if-query-has-no-result
     model = FoodItem
     template_name = 'app_admin/archive_search.html'
     allow_empty = False
+    paginate_by = 10  # Adjust the number of items per page as needed
 
     def get_queryset(self):
-        query = self.request.GET.get('q')  # info from form
+        query = self.request.GET.get('q')
         object_list = None
-        #  queri on formi pealt saadud väärtus
-        # https: // labpys.com / how - to - implement - join - operations - in -django - orm /
         if len(query) > 2:
             object_list = FoodItem.objects.select_related('menu').filter(food__icontains=query)
 
@@ -192,6 +228,11 @@ class SearchResultsListView(ListView):
             return super(SearchResultsListView, self).dispatch(request, *args, **kwargs)
         except Http404:
             return redirect('app_admin:archive')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['query'] = self.request.GET.get('q', '')
+        return context
 
 
 class OldMenuListView(ListView):

@@ -11,10 +11,10 @@
                         </div>
                         <div class="card-body">
                             <div class="alert alert-info" role="alert">
-                                NB! See katekooria kustutatakse. {{ app_admin.category_name }}
+                                NB! See katekooria <strong>{{ category }}</strong> kustutatakse.
                             </div>
 
-                            <p>Kas oled kindel, et soovid kategooriat <strong>{{ category }}</strong> kustutada? </p>
+                            <p>Kas oled kindel, et soovid kategooriat kustutada? </p>
                             <form method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger col-4">
@@ -23,7 +23,8 @@
                             </form>
                         </div>
                     </div>
-                    <a class="btn btn-secondary" href="{% url 'app_admin:category' %}">Kategooriad</a>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:category' %}"><i
+                            class="bi bi-box-arrow-left"></i> Kategooriad</a>
                 </div>
             </div>
         </div>

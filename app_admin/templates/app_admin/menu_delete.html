@@ -1,29 +1,34 @@
 {% extends "base_admin.html" %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <div class="container mt-5">
-	<div class="row mt-2">
-        <div class="col-6 mx-auto">
-            <div class="card mb-3">
-                <div class="card-header text-bg-danger">
-                    Teema kategooria Kustutamine
-                </div>
-                <div class="card-body">
-                    <div class="alert alert-info" role="alert">
-                        NB! See teema kustutatakse.
-                    </div>
+    {% if user.is_authenticated %}
+        <div class="container mt-5">
+            <div class="row mt-2">
+                <div class="col-6 mx-auto">
+                    <div class="card mb-3">
+                        <div class="card-header text-bg-danger">
+                            Päise kustutamine
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info" role="alert">
+                                NB! See päis sisuga
+                                <strong>{{ menu.date }}, {{ menu.theme }}, {{ menu.prepared }}, {{ menu.recommends }}</strong>
+                                kustutatakse.
+                            </div>
 
-                    <p>Kas oled kindel, et soovid teemat kustutada? </p>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="submit" value="Kustuta" class="btn btn-danger col-4">
-                    </form>
+                            <p>Kas oled kindel, et soovid päist kustutada? </p>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger col-4">
+                                    <i class="bi bi-trash3"></i> Kustuta
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:menu' %}">
+                        <i class="bi bi-box-arrow-left"></i> Päised</a>
                 </div>
             </div>
-            <a class="btn btn-secondary" href="{% url 'app_admin:category' %}">Kategooriad</a>
         </div>
-    </div>
-    </div>
     {% endif %}
 {% endblock %}

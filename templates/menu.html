@@ -8,15 +8,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url "app_public:index" %}" target="_blank"><i class="bi bi-calendar3"></i> Tänane Menüü</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url "app_admin:menu" %}"><i class="bi bi-book-half"></i> Päised</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url "app_admin:category" %}"><i class="bi bi-tags"></i> Kategooriad</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url "app_admin:food_menu_list" %}"><i class="bi bi-pencil-square"></i> Menüü koostamine</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url "app_admin:ready_menu" %}"><i class="bi bi-menu-button-wide"></i> Kõik Menüüd</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url "app_admin:archive" %}"><i class="bi bi-search"></i> Otsing</a></li>
             </ul>
             {% if user.is_authenticated %}
                 <ul class="navbar-nav mx-lg-auto">
-                    <li class="nav-item ms-auto"><a class="nav-link" href="/admin"><i class="bi bi-person"></i> Admin</a></li>
-                    <li class="nav-item ms-auto"><a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-door-closed"></i> Logi välja</a></li>
+                    <li class="nav-item ms-auto"><a class="nav-link" href="/app_admin"><i class="bi bi-house-door"></i> Avaleht</a></li>
+                    <li class="nav-item ms-auto"><a class="nav-link" href="/admin"><i class="bi bi-person"></i> Admin </a></li>
+                    <li class="nav-item ms-auto"><a class="nav-link" href="{% url 'logout' %}"><i class="bi bi-door-closed"></i> Logi välja | {{ user.username }}</a></li>
                 </ul>
             {% endif %}
         </div>

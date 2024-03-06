@@ -1,4 +1,5 @@
 {% extends "base_admin.html" %}
+{% load is_menu_old %}
 
 {% block content %}
     {% if user.is_authenticated %}
@@ -26,14 +27,15 @@
                                         <td>{{ menu.date }}</td>
                                         <td>{{ menu.category }}</td>
                                         <td class="text-center">
-                                            {# {% if user.is_authenticated %}  #}
                                             <div class="btn-group d-flex justify-content-end">
                                                 <a class="btn btn-light btn-sm"
                                                    href="{% url 'app_admin:food_menu_detail' pk=menu.id %}"><i
                                                         class="bi bi-eyeglasses"></i> Vaata</a>
-                                                <a class="btn btn-warning btn-sm"
-                                                   href="{% url 'app_admin:food_menu_update' pk=menu.id %}"><i
-                                                        class="bi bi-pencil"></i> Muuda</a>
+                                                {% if not menu.date|striptags|is_menu_old %}
+                                                    <a class="btn btn-warning btn-sm"
+                                                       href="{% url 'app_admin:food_menu_update' pk=menu.id %}"><i
+                                                            class="bi bi-pencil"></i> Muuda</a>
+                                                {% endif %}
                                                 <a class="btn btn-danger btn-sm"
                                                    href="{% url 'app_admin:food_menu_delete' pk=menu.id %}"><i
                                                         class="bi bi-trash3"></i> Kustuta</a>
@@ -44,12 +46,39 @@
                             {% else %}
                                 {% if object_list|length == 0 %}
                                     <tr>
-                                        <td colspan="5" style="color: red; text-align: center;">MENÜÜD EI OLE VEEL SISESTATUD!</td>
+                                        <td colspan="5" style="color: red; text-align: center;">MENÜÜD EI OLE VEEL
+                                            SISESTATUD!
+                                        </td>
                                     </tr>
                                 {% endif %}
                             {% endif %}
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center mt-3">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1">&laquo;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           href="?page={{ page_obj.previous_page_number }}">&lsaquo;</a>
+                                    </li>
+                                {% endif %}
+
+                                <li class="page-link text-dark">
+                                    Lehekülg {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                                </li>
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">&rsaquo;</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
                         <a class="btn btn-secondary d-block mx-auto mb-3" href="{% url 'app_admin:food_menu_create' %}"><i
                                 class="bi bi-plus-circle"></i> Lisa toit menüüsse</a>
                     </div>

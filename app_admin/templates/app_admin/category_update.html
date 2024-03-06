@@ -28,11 +28,13 @@
                         {{ field }}
                     </div>
                 {% endfor %}
-                <input type="submit" value="Muuda kategooria nimi" class="btn btn-success mt-2">
+                <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Muuda
+                            kategooria</button>
             </form>
             </div>
         </div>
-        <a class="btn btn-secondary" href="{% url 'app_admin:category' %}">Kategooriad</a>
+            <a class="btn btn-secondary" href="{% url 'app_admin:category' %}">
+                <i class="bi bi-box-arrow-left"></i> Kategooriad</a>
     </div>
     </div>
     </div>

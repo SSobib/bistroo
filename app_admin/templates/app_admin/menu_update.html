@@ -8,7 +8,7 @@
                     <div class="card mb-3">
                         <div class="card-header text-bg-warning">
                             <div class="card-title d-flex justify-content-between align-items-center">
-                                <h5 class="m-0 mt-2">Päise kategooria muutmine</h5>
+                                <h5 class="m-0 mt-2">Päise muutmine</h5>
                             </div>
                         </div>
                         <div class="card-body">
@@ -16,13 +16,13 @@
                         {% csrf_token %}
                         {{ form.as_p }}
                         <button type="submit" class="btn btn-success"><i class="bi bi-check-circle"></i> Muuda
-                            päise kategooria
+                            päis
                                 </button>
                             </form>
                         </div>
                     </div>
-                                        <a class="btn btn-secondary" href="{% url 'app_admin:category' %}"><i
-                            class="bi bi-box-arrow-left"></i> Kategooriad</a>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:menu' %}">
+                        <i class="bi bi-box-arrow-left"></i> Päised</a>
                 </div>
             </div>
         </div>
