@@ -82,10 +82,26 @@ class FoodMenuCreateForm(forms.ModelForm):
 
 
 class CategoryCreateForm(forms.ModelForm):
-
     class Meta:
         model = Category
         fields = '__all__'
+        widgets = {
+            'category_name': forms.TextInput(attrs={'type': 'text', 'class': 'form-control',
+                                                    'placeholder': 'Sisesta kategooria nimi'}),
+            'category_sort_id': forms.NumberInput(attrs={'type': 'number', 'class': 'form-control',
+                                                         'placeholder': 'Sisesta kategooria number',
+                                                         'inputmode': 'numeric', 'pattern': '[0-9]*'}),}
+
+class CategoryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = '__all__'
+        widgets = {
+            'category_name': forms.TextInput(attrs={'type': 'text', 'class': 'form-control',
+                                                    'placeholder': 'Sisesta kategooria nimi'}),
+            'category_sort_id': forms.NumberInput(attrs={'type': 'number', 'class': 'form-control',
+                                                         'placeholder': 'Sisesta kategooria number',
+                                                         'inputmode': 'numeric', 'pattern': '[0-9]*'}),}
 
 
 FoodMenuFormset = inlineformset_factory(

@@ -63,7 +63,7 @@ class CategoryListView(ListView):
 class CategoryUpdateView(UpdateView):
     template_name = 'app_admin/category_update.html'
     model = Category
-    fields = ['category_name', 'category_sort_id']
+    form_class = CategoryUpdateForm
     success_url = reverse_lazy('app_admin:category')
 
     def form_valid(self, form):

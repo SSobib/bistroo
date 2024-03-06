@@ -13,17 +13,14 @@
                         </div>
                         <div class="card-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form">
-                                {% for hidden_field in form.hidden_fields %}
-                                    <div class="col-12">
-                                        {{ hidden_field.errors }}
-                                        {{ hidden_field }}
-                                    </div>
-                                {% endfor %}
-
                                 {% csrf_token %}
-
                                 {{ form.management_form }}
                                 {{ form.non_form_errors }}
+
+                                {% for hidden_field in form.hidden_fields %}
+                                    {{ hidden_field.errors }}
+                                    {{ hidden_field }}
+                                {% endfor %}
 
                                 {% if formset.errors %}
                                     <div class="alert alert-danger" role="alert">
@@ -34,43 +31,50 @@
                                 <div id="formsets-container">
                                     {% for foodmenu in form.forms %}
                                         <div class="formset">
-                                            <hr>
-                                            <h5 class="col-12">
-                                                {% if foodmenu.instance.id %}
-                                                    {{ foodmenu.instance.menu }}
+                                            <h5 class="col-12 mt-3 mb-3">
+                                                {% if form.forms|length > 1 %}
+                                                    Toidu lisamine
                                                 {% else %}
-                                                    {% if form.forms|length > 1 %}
-                                                        Toidu lisamine
-                                                    {% else %}
-                                                        Lisa toit
-                                                    {% endif %}
+                                                    Lisa toit
                                                 {% endif %}
                                             </h5>
                                             {% for hidden_field in foodmenu.hidden_fields %}
-                                                <div class="col-3">
-                                                    {{ hidden_field.errors }}
-                                                    {{ hidden_field }}
-                                                </div>
+                                                {{ hidden_field.errors }}
+                                                {{ hidden_field }}
                                             {% endfor %}
-                                            <table class="table table-borderless table-sm">
-                                                {{ foodmenu.as_table }}
-                                            </table>
+                                            <div class="row">
+                                                {% for field in foodmenu %}
+                                                    {% if field.name != 'id' and field.name != 'menu' %}
+                                                        <div class="col-md-12">
+                                                            <div class="mb-3">
+                                                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                                                {{ field }}
+                                                                {% for error in field.errors %}
+                                                                    <div class="alert alert-danger mt-1">
+                                                                        {{ error }}
+                                                                    </div>
+                                                                {% endfor %}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     {% endfor %}
                                 </div>
-                                <hr>
-                                <div class="row">
+                                <div class="row mt-3">
                                     <div class="col-12">
-                                        <button class="btn btn-success mt-3 me-2" type="submit"><i
-                                                class="bi bi-plus-circle"></i> Lisa menüüsse
+                                        <button class="btn btn-success" type="submit">
+                                            <i class="bi bi-plus-circle"></i> Lisa menüüsse
                                         </button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <a class="btn btn-secondary" href="{% url 'app_admin:food_menu_list' %}"><i
-                            class="bi bi-box-arrow-left"></i> Menüü koostamine</a>
+                    <a class="btn btn-secondary" href="{% url 'app_admin:food_menu_list' %}">
+                        <i class="bi bi-box-arrow-left"></i> Menüü koostamine
+                    </a>
                 </div>
             </div>
         </div>
