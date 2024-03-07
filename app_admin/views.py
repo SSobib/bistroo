@@ -62,6 +62,7 @@ class CategoryCreateView(CreateView):
 
 
 class CategoryListView(ListView):
+    model = Category
     template_name = 'app_admin/category.html'
     context_object_name = 'data'  # Use a more general name to hold both categories and menus
 
@@ -84,14 +85,16 @@ class CategoryUpdateView(UpdateView):
 class CategoryDeleteView(DeleteView):
     template_name = 'app_admin/category_delete.html'
     model = Category
-    success_url = reverse_lazy('app_admin:category')
+
+    def get_success_url(self):
+        return reverse_lazy('app_admin:category')
 
     def post(self, request, *args, **kwargs):
         try:
             return self.delete(request, *args, **kwargs)
         except ProtectedError:
-            messages.warning(request, "Seda kategooriat ei saa kustutada")
-            return render(request, "app_admin/category.html", context={'data': Category.objects.all()})
+            messages.warning(request, "Seda kategooriat ei saa kustutada, sest see on kasutusel.")
+            return redirect('app_admin:category')
 
 
 class MenuListView(ListView):

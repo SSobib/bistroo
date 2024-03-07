@@ -15,9 +15,9 @@
                             </div>
 
                             <p>Kas oled kindel, et soovid kategooriat kustutada? </p>
-                            <form method="post">
+                            <form method="post" action="{% url 'app_admin:category_delete' pk=object.pk %}">
                                 {% csrf_token %}
-                                <div class="alert alert-danger mt-4" role="alert">
+                                <div class="alert alert-warning mt-4" role="alert">
                         <span>* Kui kategooriaga on seotud mõni toit menüüs siis seda kategooriat kustutada ei saa!</span>
                             </div>
                                 <button type="submit" class="btn btn-danger col-4">
