@@ -1,14 +1,18 @@
+import datetime
+
 from django.urls import reverse_lazy
 from django.views.generic import (TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView)
 from django.views.generic.edit import FormView
 from django.contrib import messages
 from django.views.generic.detail import SingleObjectMixin
-from django.db.models import Count, Q
+from django.db.models import Count, Q, ProtectedError
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from .forms import *
 from .models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
+from datetime import date
 
 
 # Create your views here.
@@ -20,7 +24,7 @@ class HomeView(TemplateView):
 class CategoryCreateView(CreateView):
     template_name = 'app_admin/category_create.html'
     model = Category
-    form_class = CategoryCreateForm
+    form_class = CategoryCreateForm  # Assuming you have a form class named CategoryCreateForm
     success_url = reverse_lazy('app_admin:category')
 
     def form_valid(self, form):
@@ -50,6 +54,12 @@ class CategoryCreateView(CreateView):
 
         return super().form_invalid(form)
 
+    def get_form(self, *args, **kwargs):
+        form = super(CategoryCreateView, self).get_form(*args, **kwargs)
+
+
+        return form
+
 
 class CategoryListView(ListView):
     template_name = 'app_admin/category.html'
@@ -76,6 +86,13 @@ class CategoryDeleteView(DeleteView):
     model = Category
     success_url = reverse_lazy('app_admin:category')
 
+    def post(self, request, *args, **kwargs):
+        try:
+            return self.delete(request, *args, **kwargs)
+        except ProtectedError:
+            messages.warning(request, "Seda kategooriat ei saa kustutada")
+            return render(request, "app_admin/category.html", context={'data': Category.objects.all()})
+
 
 class MenuListView(ListView):
     template_name = 'app_admin/menu.html'
@@ -89,22 +106,25 @@ class MenuListView(ListView):
         context = super().get_context_data(**kwargs)
         return context
 
+
 class MenuCreateView(CreateView):
     template_name = 'app_admin/menu_form_create.html'
     model = Menu
     form_class = MenuCreateForm
-    success_url = reverse_lazy('app_admin:category')
+    success_url = reverse_lazy('app_admin:menu')
 
-    def form_invalid(self, form):
-        # Check if there are errors in the form for the 'date' field
-        if 'date' in form.errors:
-            # Clear existing errors for 'date' field
-            form.errors.pop('date', None)
-
-            # Capture the error message and add it to the messages
-            messages.error(self.request, "Selle kuupäevaga on päis juba olemas!")
-
-        return super().form_invalid(form)
+    def post(self, request, *args, **kwargs):
+        my_data = request.POST
+        my_date = my_data['date']
+        print(my_date)
+        try:
+            new_date = datetime.datetime.strptime(my_date, '%d.%m.%Y').strftime('%Y-%m-%d')
+            my_data._mutable = True
+            my_data['date'] = new_date
+            my_data._mutable = False
+        except ValueError:
+            return super().post(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 class MenuUpdateView(UpdateView):
@@ -192,6 +212,11 @@ class FoodMenuCreateView(CreateView):
     model = FoodMenu
     form_class = FoodMenuCreateForm
     template_name = 'app_admin/food_menu_create.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['date'].queryset = Menu.objects.filter(date__gte=date.today())
+        return form
 
     def form_invalid(self, form):
         # Capture the ValidationError and add it to the form's errors

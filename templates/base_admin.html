@@ -11,8 +11,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"/>
     <link href="{% static "css/styles.css" %}" rel="stylesheet"/>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="{% static "js/jquery-3.7.1.min.js" %}"></script> <!-- Include jQuery first -->
     <script src="{% static "js/bootstrap.bundle.min.js" %}"></script>
+    <script src="{% static "js/jquery-ui-1.13.2/jquery-ui.js" %}"></script>
+    <link rel="stylesheet" href="{% static 'js/jquery-ui-1.13.2/jquery-ui.css' %}">
     <script src="{% static "js/scripts.js" %}"></script>
+    <script src="{% static "js/jquery.formset.js" %}"></script>
+    <script src="{% static "js/datepicker-et.js" %}"></script>
 </head>
 <body style="background-image: url('{% static "/images/2.png" %}');
             background-size: cover;
@@ -20,19 +26,12 @@
             background-repeat: no-repeat;
             background-attachment: fixed;">
 {% if user.is_authenticated %}
-{% include "menu.html" %}
-    {% else %}
-
-    {% endif %}
+    {% include "menu.html" %}
+{% endif %}
 <div class="container">
-
-
     {% block content %}
 
     {% endblock %}
-
 </div>
-
-
 </body>
 </html>
