@@ -1,12 +1,13 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.contrib.auth.models import User
 # Create your models here.
 
 
 class Category(models.Model):
     category_name = models.CharField(max_length=100, unique=True, verbose_name="Toidu kategooria nimi:")
-    category_sort_id = models.PositiveIntegerField(verbose_name="Toidu kategooria number:")
+    category_sort_id = models.PositiveIntegerField(unique=True, verbose_name="Toidu kategooria number:")
 
     class Meta:
         ordering = ["category_sort_id"]
@@ -14,6 +15,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.category_name
+
+    def is_in_use(self):
+        # Check if there are any products associated with this category
+        return FoodItem.objects.filter(menu__category=self).exists()
 
 
 class Menu(models.Model):

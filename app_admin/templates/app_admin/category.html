@@ -8,6 +8,14 @@
                     <div class="card-header">
                         <div class="card-title d-flex justify-content-between align-self-auto">
                             <h4 class="m-0 mt-2">Kategooriad</h4>
+                            {% if messages %}
+                            <div class="messages">
+                        {% for message in messages %}
+                            <p{% if message.tags %} class="alert alert-danger"{% endif %}>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
                         </div>
                     </div>
                     <div class="table-body mx-4">

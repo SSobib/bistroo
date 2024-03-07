@@ -1,6 +1,8 @@
 /* Estonian initialisation for the jQuery UI date picker plugin. */
-/* Written by Mart SÃµmermaa (mrts.pydev at gmail com). */
+/* Written by Mart Sõmermaa (mrts.pydev at gmail com). */
 ( function( factory ) {
+	"use strict";
+
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
@@ -10,29 +12,30 @@
 		// Browser globals
 		factory( jQuery.datepicker );
 	}
-}( function( datepicker ) {
+} )( function( datepicker ) {
+"use strict";
 
 datepicker.regional.et = {
 	closeText: "Sulge",
 	prevText: "Eelnev",
-	nextText: "JÃ¤rgnev",
-	currentText: "TÃ¤na",
-	monthNames: [ "Jaanuar","Veebruar","MÃ¤rts","Aprill","Mai","Juuni",
-	"Juuli","August","September","Oktoober","November","Detsember" ],
-	monthNamesShort: [ "Jaan", "Veebr", "MÃ¤rts", "Apr", "Mai", "Juuni",
+	nextText: "Järgnev",
+	currentText: "Täna",
+	monthNames: [ "Jaanuar", "Veebruar", "Märts", "Aprill", "Mai", "Juuni",
+	"Juuli", "August", "September", "Oktoober", "November", "Detsember" ],
+	monthNamesShort: [ "Jaan", "Veebr", "Märts", "Apr", "Mai", "Juuni",
 	"Juuli", "Aug", "Sept", "Okt", "Nov", "Dets" ],
 	dayNames: [
-		"PÃ¼hapÃ¤ev",
-		"EsmaspÃ¤ev",
-		"TeisipÃ¤ev",
-		"KolmapÃ¤ev",
-		"NeljapÃ¤ev",
+		"Pühapäev",
+		"Esmaspäev",
+		"Teisipäev",
+		"Kolmapäev",
+		"Neljapäev",
 		"Reede",
-		"LaupÃ¤ev"
+		"Laupäev"
 	],
-	dayNamesShort: [ "PÃ¼hap", "Esmasp", "Teisip", "Kolmap", "Neljap", "Reede", "Laup" ],
-	dayNamesMin: [ "P","E","T","K","N","R","L" ],
-	weekHeader: "nÃ¤d",
+	dayNamesShort: [ "Pühap", "Esmasp", "Teisip", "Kolmap", "Neljap", "Reede", "Laup" ],
+	dayNamesMin: [ "P", "E", "T", "K", "N", "R", "L" ],
+	weekHeader: "näd",
 	dateFormat: "dd.mm.yy",
 	firstDay: 1,
 	isRTL: false,
@@ -42,4 +45,4 @@ datepicker.setDefaults( datepicker.regional.et );
 
 return datepicker.regional.et;
 
-} ) );
+} );

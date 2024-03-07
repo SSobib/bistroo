@@ -36,5 +36,13 @@
                 </div>
             </div>
         </div>
+                <script>
+                    $(function () {
+                        $("#date").datepicker({
+                            // dateFormat: "yy-mm-dd"
+                            dateFormat: "dd.mm.yy"
+                        });
+                    });
+                </script>
     {% endif %}
 {% endblock %}

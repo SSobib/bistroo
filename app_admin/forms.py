@@ -9,7 +9,7 @@ from django.core.exceptions import ValidationError
 class MenuCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(MenuCreateForm, self).__init__(*args, **kwargs)
         self.fields['date'].label = 'Kuupäev'
         self.fields['theme'].label = 'Teema'
         self.fields['recommends'].label = 'Soovitab'
@@ -18,7 +18,8 @@ class MenuCreateForm(forms.ModelForm):
     class Meta:
         model = Menu
         widgets = {
-            'date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}, format='%d.%m.%Y'),
+            'date': django.forms.DateInput(attrs={'type': 'text',  'id': 'date', 'class': 'form-control',
+                            'placeholder': 'Kliki kuupäeva valimiseks', 'readonly': 'readonly'}, format='%d.%m.%Y'),
             'theme': forms.TextInput(attrs={'type': 'text', 'class': 'form-control',
                                             'placeholder': 'Teema jaoks on vaja sisestada ka soovitaja'}),
             'recommends': forms.TextInput(attrs={'type': 'text', 'class': 'form-control',
